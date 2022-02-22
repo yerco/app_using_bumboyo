@@ -2,13 +2,14 @@
 
 from bumboyo.api import API
 
-from auth import login_required, TokenMiddleware, STATIC_TOKEN
+from auth import login_required, TokenMiddleware, STATIC_TOKEN, on_exception
 from storage import BookStorage
 
 app = API()
 book_storage = BookStorage()
 book_storage.create(name="7 habits of highly effective people", author="Stephen Covey")
 app.add_middleware(TokenMiddleware)
+app.add_exception_handler(on_exception)
 
 @app.route("/", allowed_methods=["get"])
 def index(req, resp):
